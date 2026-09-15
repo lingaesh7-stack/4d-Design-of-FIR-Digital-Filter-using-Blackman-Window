@@ -9,38 +9,48 @@ PC installed with SCILAB.
 # PROGRAM: 
 ```
 clc;
+clear;
 close;
-M=input('Enter the Odd Filter Length =');
-Wc=input('Enter the Digital Cut off frequency =');
-alpha=(M-1)/2;
-for n=1:M
-if (n==alpha+1) then
-hd(n)=Wc/%pi;
-else
-hd(n)=sin(Wc*((n-1)-alpha))/(((n-1)-alpha)*%pi);
-end
-end
-for n=1:M
-W(n)=0.42-(0.5*cos((2*%pi*(n-1))/(M-1)))+(0.08*cos((4*%pi*(n-1))/(M-1)));
-end
-h=hd.*W;
-disp(h,'Filter Coefficients are');
-[hzm,fr]=frmag(h,256);
-subplot(2,1,1);
-plot(2*fr,hzm);
-xlabel('Normalized Digital Frequency w');
-ylabel('Magnitude');
-title('Frequency Response of FIR LPF using Blackman Window');
-hzm_dB=20*log10(hzm);
-subplot(2,1,2);
-plot(2*fr,hzm_dB);
-xlabel('Normalized Digital Frequency W');
-ylabel('Magnitude in dB');
-title('Frequency Response of FIR LPF using Blackman Window');
-```
-# OUTPUT: 
-<img width="727" height="580" alt="image" src="https://github.com/user-attachments/assets/61bd977a-7369-45e9-9153-3a176a7c69a7" />
 
+N = 21;               
+wc = %pi / 2;         
+alpha = (N - 1) / 2;  
+
+hd = zeros(1, N);
+for n = 0 : N-1
+    if n == alpha then
+        hd(n+1) = wc / %pi;
+    else
+        hd(n+1) = sin(wc * (n - alpha)) / (%pi * (n - alpha));
+    end
+end
+
+w = zeros(1, N);
+for n = 0 : N-1
+    w(n+1) = 0.42 - 0.5 * cos((2 * %pi * n) / (N - 1)) + 0.08 * cos((4 * %pi * n) / (N - 1));
+end
+
+h = hd .* w;         
+
+[H, w_freq] = frmag(h, 256); 
+
+figure;
+subplot(2, 1, 1);
+plot2d3(0:N-1, h);          
+plot(0:N-1, h, 'ro');       
+xtitle('Impulse Response', 'n', 'h(n)');
+xgrid(1);
+
+subplot(2, 1, 2);
+H_dB = 20 * log10(H);       
+plot(w_freq, H_dB);
+xtitle('Magnitude Response', 'Normalized Frequency', 'Magnitude (dB)');
+xgrid(1);
+```
+
+# OUTPUT: 
+
+<img width="1917" height="892" alt="image" src="https://github.com/user-attachments/assets/68bb6daa-52a2-4e2c-9fc3-a0f5719c09cb" />
 
 # RESULT: 
 
@@ -54,38 +64,48 @@ PC installed with SCILAB.
 # PROGRAM: 
 ```
 clc;
+clear;
 close;
-M=input('Enter the Odd Filter Length =');
-Wc=input('Enter the Digital Cut off frequency =');
-alpha=(M-1)/2;
-for n=1:M
-if (n==alpha+1) then
-hd(n)=1-Wc/%pi;
-else
-hd(n)=-sin(Wc*((n-1)-alpha))/(((n-1)-alpha)*%pi);
-end
-end
-for n=1:M
-W(n)=0.42-(0.5*cos((2*%pi*(n-1))/(M-1)))+(0.08*cos((4*%pi*(n-1))/(M-1)));
-end
-h=hd.*W;
-disp(h,'Filter Coefficients are');
-[hzm,fr]=frmag(h,256);
-subplot(2,1,1);
-plot(2*fr,hzm);
-xlabel('Normalized Digital Frequency w');
-ylabel('Magnitude');
-title('Frequency Response of FIR HPF using Blackman Window');
-hzm_dB=20*log10(hzm);
-subplot(2,1,2);
-plot(2*fr,hzm_dB);
-xlabel('Normalized Digital Frequency W');
-ylabel('Magnitude in dB');
-title('Frequency Response of FIR HPF using Blackman Window');
-```
-# OUTPUT: 
-<img width="721" height="582" alt="image" src="https://github.com/user-attachments/assets/77169f01-5c32-4083-9c19-6ef9ae91ed94" />
 
+N = 21;               
+wc = %pi / 2;         
+alpha = (N - 1) / 2;  
+
+hd = zeros(1, N);
+for n = 0 : N-1
+    if n == alpha then
+        hd(n+1) = 1 - (wc / %pi);
+    else
+        hd(n+1) = -sin(wc * (n - alpha)) / (%pi * (n - alpha));
+    end
+end
+
+w = zeros(1, N);
+for n = 0 : N-1
+    w(n+1) = 0.42 - 0.5 * cos((2 * %pi * n) / (N - 1)) + 0.08 * cos((4 * %pi * n) / (N - 1));
+end
+
+h = hd .* w;         
+
+[H, w_freq] = frmag(h, 256); 
+
+figure;
+subplot(2, 1, 1);
+plot2d3(0:N-1, h);          
+plot(0:N-1, h, 'ro');       
+xtitle('Impulse Response', 'n', 'h(n)');
+xgrid(1);
+
+subplot(2, 1, 2);
+H_dB = 20 * log10(H);       
+plot(w_freq, H_dB);
+xtitle('Magnitude Response', 'Normalized Frequency', 'Magnitude (dB)');
+xgrid(1);
+```
+
+# OUTPUT: 
+
+<img width="1917" height="893" alt="image" src="https://github.com/user-attachments/assets/ffdb376c-a048-4a3c-b573-fd70cb085e5e" />
 
 # RESULT: 
 Thus design of HIGH pass FIR digital filter using-Blackman-Window waveforms were plotted and output was verified.
@@ -98,40 +118,49 @@ PC installed with SCILAB.
 # PROGRAM: 
 ```
 clc;
+clear;
 close;
-M=input('Enter the Odd Filter Length =');
-Wc=input('Enter the Digital Cut off frequency =');
-Wc2=Wc(2);
-Wc1=Wc(1);
-alpha=(M-1)/2;
-for n=1:M
-if (n==alpha+1) then
-hd(n)=(Wc2-Wc1)/%pi;
-else
-hd(n)=(sin(Wc2*((n-1)-alpha))-sin(Wc1*((n-1)-alpha)))/(((n-1)-alpha)*%pi);
-end
-end
-for n=1:M
-W(n)=0.42-(0.5*cos((2*%pi*(n-1))/(M-1)))+(0.08*cos((4*%pi*(n-1))/(M-1)));
-end
-h=hd.*W;
-disp(h,'Filter Coefficients are');
-[hzm,fr]=frmag(h,256);
-subplot(2,1,1);
-plot(2*fr,hzm);
-xlabel('Normalized Digital Frequency w');
-ylabel('Magnitude');
-title('Frequency Response of FIR BPF using Blackman Window');
-hzm_dB=20*log10(hzm);
-subplot(2,1,2);
-plot(2*fr,hzm_dB);
-xlabel('Normalized Digital Frequency W');
-ylabel('Magnitude in dB');
-title('Frequency Response of FIR BPF using Blackman Window');
-```
-# OUTPUT: 
-<img width="712" height="585" alt="image" src="https://github.com/user-attachments/assets/728ed344-3e42-4596-843a-a4fa2375f258" />
 
+N = 21;               
+wc1 = %pi / 4;        
+wc2 = 3 * %pi / 4;    
+alpha = (N - 1) / 2;  
+
+hd = zeros(1, N);
+for n = 0 : N-1
+    if n == alpha then
+        hd(n+1) = (wc2 - wc1) / %pi;
+    else
+        hd(n+1) = (sin(wc2 * (n - alpha)) - sin(wc1 * (n - alpha))) / (%pi * (n - alpha));
+    end
+end
+
+w = zeros(1, N);
+for n = 0 : N-1
+    w(n+1) = 0.42 - 0.5 * cos((2 * %pi * n) / (N - 1)) + 0.08 * cos((4 * %pi * n) / (N - 1));
+end
+
+h = hd .* w;         
+
+[H, w_freq] = frmag(h, 256); 
+
+figure;
+subplot(2, 1, 1);
+plot2d3(0:N-1, h);          
+plot(0:N-1, h, 'ro');       
+xtitle('Impulse Response', 'n', 'h(n)');
+xgrid(1);
+
+subplot(2, 1, 2);
+H_dB = 20 * log10(H);       
+plot(w_freq, H_dB);
+xtitle('Magnitude Response', 'Normalized Frequency', 'Magnitude (dB)');
+xgrid(1);
+```
+
+# OUTPUT: 
+
+<img width="1917" height="896" alt="image" src="https://github.com/user-attachments/assets/7c322308-cc01-416e-89f0-b3db858ddcc4" />
 
 # RESULT: 
 Thus design of BAND pass FIR digital filter using-Blackman-Window waveforms were plotted and output was verified.
@@ -144,40 +173,49 @@ PC installed with SCILAB.
 # PROGRAM: 
 ```
 clc;
+clear;
 close;
-M=input('Enter the Odd Filter Length =');
-Wc=input('Enter the Digital Cut off frequency =');
-Wc2=Wc(2);
-Wc1=Wc(1);
-alpha=(M-1)/2;
-for n=1:M
-if (n==alpha+1) then
-hd(n)=1-((Wc2-Wc1)/%pi);
-else
-hd(n)=(sin(Wc1*((n-1)-alpha))-sin(Wc2*((n-1)-alpha)))/(((n-1)-alpha)*%pi);
-end
-end
-for n=1:M
-W(n)=0.42-(0.5*cos((2*%pi*(n-1))/(M-1)))-(0.08*cos((4*%pi*(n-1))/(M-1)));
-end
-h=hd.*W;
-disp(h,'Filter Coefficients are');
-[hzm,fr]=frmag(h,256);
-subplot(2,1,1);
-plot(2*fr,hzm);
-xlabel('Normalized Digital Frequency w');
-ylabel('Magnitude');
-title('Frequency Response of FIR BSF using Blackman Window');
-hzm_dB=20*log10(hzm);
-subplot(2,1,2);
-plot(2*fr,hzm_dB);
-xlabel('Normalized Digital Frequency W');
-ylabel('Magnitude in dB');
-title('Frequency Response of FIR BSF using Blackman Window');
-```
-# OUTPUT: 
-<img width="725" height="582" alt="image" src="https://github.com/user-attachments/assets/7cdd0d83-eeba-4ba2-8088-ae7edde6b916" />
 
+N = 21;               
+wc1 = %pi / 4;        
+wc2 = 3 * %pi / 4;    
+alpha = (N - 1) / 2;  
+
+hd = zeros(1, N);
+for n = 0 : N-1
+    if n == alpha then
+        hd(n+1) = 1 - ((wc2 - wc1) / %pi);
+    else
+        hd(n+1) = (sin(wc1 * (n - alpha)) - sin(wc2 * (n - alpha))) / (%pi * (n - alpha));
+    end
+end
+
+w = zeros(1, N);
+for n = 0 : N-1
+    w(n+1) = 0.42 - 0.5 * cos((2 * %pi * n) / (N - 1)) + 0.08 * cos((4 * %pi * n) / (N - 1));
+end
+
+h = hd .* w;         
+
+[H, w_freq] = frmag(h, 256); 
+
+figure;
+subplot(2, 1, 1);
+plot2d3(0:N-1, h);          
+plot(0:N-1, h, 'ro');       
+xtitle('Impulse Response', 'n', 'h(n)');
+xgrid(1);
+
+subplot(2, 1, 2);
+H_dB = 20 * log10(H);       
+plot(w_freq, H_dB);
+xtitle('Magnitude Response', 'Normalized Frequency', 'Magnitude (dB)');
+xgrid(1);
+```
+
+# OUTPUT: 
+
+<img width="1917" height="896" alt="image" src="https://github.com/user-attachments/assets/4d9a803c-a9eb-42fe-bc02-2ccaf5797782" />
 
 # RESULT: 
 Thus design of BAND STOP FIR digital filter using-Blackman-Window waveforms were plotted and output was verified.
